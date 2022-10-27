@@ -1,4 +1,5 @@
 import { FC } from "react";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import './header.css';
 
 export const Header : FC = () => {
@@ -6,7 +7,9 @@ export const Header : FC = () => {
         <div className="header">
             <>​</>
             <h2>Sudopass</h2>
-            <span>o/</span>
+            <div className="profile-button">
+                <AccountCircleIcon fontSize="large"/>
+            </div>
         </div>
     );
 }

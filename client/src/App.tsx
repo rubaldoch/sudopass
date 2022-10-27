@@ -13,7 +13,7 @@ const fakePasswords = [
   {
     password: "password",
     domain: "facebook.com",
-    alias: "facebook",
+    alias: "mi cuenta principal",
     iconUrl: "https://www.facebook.com/images/fb_icon_325x325.png"
   },
 ]
