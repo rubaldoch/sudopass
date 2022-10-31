@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Tooltip } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import CreateIcon from "@mui/icons-material/Create";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
