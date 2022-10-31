@@ -4,29 +4,28 @@ import CreateIcon from "@mui/icons-material/Create";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import "./passwordModel.css";
+import { PasswordDto } from "../../interfaces/passwordDto";
 
 interface IPasswordModelProps {
-  password: string;
-  domain: string;
-  alias: string;
-  iconUrl?: string;
+  password: PasswordDto;
+  handleOnEdit: (password: PasswordDto) => void;
 }
 
 export const PasswordModel: FC<IPasswordModelProps> = ({
   password,
-  domain,
-  alias,
-  iconUrl,
+  handleOnEdit,
 }) => {
   const [copyMessage, setCopyMessage] = useState("Copy Password");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const { password: passwordValue, domain, alias, iconUrl } = password;
 
   const handleShowPassword = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(password);
+  const handleOnCopy = () => {
+    navigator.clipboard.writeText(passwordValue);
     setCopyMessage("Copied!");
     setTimeout(() => {
       setCopyMessage("Copy Password");
@@ -48,14 +47,14 @@ export const PasswordModel: FC<IPasswordModelProps> = ({
         <div className="password-secret">
           <Tooltip title={copyMessage} placement="top">
             {isPasswordVisible ? (
-              <span className="password-secret-show">{password}</span>
+              <span className="password-secret-show">{passwordValue}</span>
             ) : (
               <input
                 type="password"
                 className="password-secret-hide noselect"
                 value="mysecret"
                 readOnly
-                onClick={() => handleCopy()}
+                onClick={() => handleOnCopy()}
               />
             )}
           </Tooltip>
@@ -63,7 +62,10 @@ export const PasswordModel: FC<IPasswordModelProps> = ({
         </div>
         <div className="password-buttons">
           <Tooltip title="Edit Password" placement="right">
-            <div className="password-button">
+            <div
+              className="password-button"
+              onClick={() => handleOnEdit(password)}
+            >
               <CreateIcon fontSize="small" />
             </div>
           </Tooltip>
