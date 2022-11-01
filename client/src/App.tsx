@@ -8,11 +8,9 @@ import { PasswordDto } from "./interfaces/passwordDto";
 
 const fakePasswords: PasswordDto[] = [
   {
-    password: "password",
+    password: "passwordasdsadasdasdasdadd",
     domain: "google.com",
     alias: "google",
-    iconUrl:
-      "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
   },
   {
     password: "password123456",
@@ -29,25 +27,21 @@ function App() {
   );
 
   const handleOnEditPressed = (password: PasswordDto) => {
-    console.log("Editando", password);
     setIsFormVisible(true);
     setSelectedPassword(password);
   };
 
   const handleOnCreatePressed = () => {
-    console.log("Creando");
     setIsFormVisible(true);
     setSelectedPassword(null);
   };
 
   const handleOnFormSave = (password: PasswordDto) => {
-    console.log("Form submitted", password);
     setIsFormVisible(false);
     setSelectedPassword(null);
   };
 
   const handleOnFormClose = () => {
-    console.log("Form closed");
     setIsFormVisible(false);
     setSelectedPassword(null);
   };
@@ -70,10 +64,11 @@ function App() {
     return (
       <>
         <CreateButton handleOnCreate={handleOnCreatePressed} />
-        {fakePasswords.map((password) => (
+        {fakePasswords.map((passwordDto) => (
           <PasswordModel
-            password={password}
+            password={passwordDto}
             handleOnEdit={handleOnEditPressed}
+            key={passwordDto.domain}
           />
         ))}
       </>
