@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 
 import { User, UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from 'src/dto/user.dto';
+import { Credential } from 'src/schemas/credential.schema';
 
 
 @Injectable()
@@ -17,7 +18,7 @@ export class UserService {
   }
 
   async update(id: string, itemDto: UserDto): Promise<User> {
-    return this.model.findOneAndUpdate({ _id: id }, itemDto).populate('alias');
+    return this.model.findOneAndUpdate({ _id: id }, itemDto);
   }
 
   async findAll(): Promise<User[]> {
@@ -26,5 +27,18 @@ export class UserService {
 
   async findOne(email: string): Promise<User> {
     return this.model.findOne({ email: email }).exec();
+  }
+
+  async findOneByCredential(email: string, credentialId: string): Promise<User> {
+    return this.model.findOne({ email: email, credentials: { $elemMatch: { $eq: credentialId } } }).exec();
+  }
+
+  async pushCredential(email: string, credential: Credential): Promise<User> {
+    return this.model.findOneAndUpdate({ email: email }, { $push: { credentials: credential } });
+  }
+
+  async readAllCredentials(email: string): Promise<Credential[]> {
+    const user = await this.model.findOne({ email: email }).populate('credentials').exec();
+    return user.credentials;
   }
 }

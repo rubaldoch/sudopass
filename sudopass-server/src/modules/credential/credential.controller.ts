@@ -1,4 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+
+import { Request } from 'express';
 
 import { CredentialService } from './credential.service';
 
@@ -14,22 +16,34 @@ export class CredentialController {
   constructor(private readonly service: CredentialService) {}
 
   @Post()
-  async create(@Body() item: CredentialDto): Promise<Credential> {
-    return this.service.create(item);
+  async create(@Req() req: Request): Promise<Credential> {
+    const user = req.user as any;
+    const item = req.body as CredentialDto;
+    return this.service.create(user, item);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() item: CredentialDto): Promise<Credential>  {
-    return this.service.update(id, item);
+  async update(@Param('id') id: string, @Req() req: Request): Promise<Credential>  {
+    const user = req.user as any;
+    const item = req.body as CredentialDto;
+    return this.service.update(user, id, item);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string, @Req() req: Request): Promise<Credential> {
+    const user = req.user as any;
+    return this.service.findOne(user, id);
   }
 
   @Get()
-  async findAll(): Promise<Credential[]> {
-    return this.service.findAll();
+  async findAll(@Req() req: Request): Promise<Credential[]> {
+    const user = req.user as any;
+    return this.service.findAll(user);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<Credential> {
-    return this.service.delete(id);
+  async delete(@Param('id') id: string, @Req() req: Request): Promise<Credential> {
+    const user = req.user as any;
+    return this.service.delete(user, id);
   }
 }
