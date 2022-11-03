@@ -14,16 +14,14 @@ export class AuthService {
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.userService.findOne(email);
     if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+      return { email: user.email };
     }
     return null;
   }
 
   async login(user: any) {
     // TODO: check if user exists
-    // TODO: check _id value of user for payload.sub
-    const payload = { username: user.email, sub: user.email };
+    const payload = { email: user.email };
     return {
       access_token: this.jwtService.sign(payload),
     };
@@ -34,10 +32,8 @@ export class AuthService {
     if (existingUser) {
       throw new BadRequestException('User already exists');
     }
-
     const newUser = await this.userService.create(user);
-    // TODO: check _id value of user for payload.sub
-    const payload = { username: newUser.email, sub: newUser.email };
+    const payload = { email: newUser.email };
     return {
       access_token: this.jwtService.sign(payload),
     };
