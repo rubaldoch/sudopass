@@ -4,17 +4,23 @@ import "./form.css";
 
 interface IFormProps {
   password: PasswordDto | null;
-  handleOnSave: (password: PasswordDto) => void;
+  formType: "create" | "edit" | "none";
   handleOnClose: () => void;
-  formType: "edit" | "create" | "none";
+  handleOnSave: (
+    password: PasswordDto,
+    type: "create" | "edit" | "none"
+  ) => void;
+  handleOnDelete: (password: PasswordDto) => void;
 }
 
 export const Form: FC<IFormProps> = ({
   password,
   handleOnSave,
   handleOnClose,
+  handleOnDelete,
   formType,
 }) => {
+  const [idValue] = useState(password?.id || "");
   const [passwordValue, setPasswordValue] = useState(password?.password || "");
   const [domainValue, setDomainValue] = useState(password?.domain || "");
   const [aliasValue, setAliasValue] = useState(password?.alias || "");
@@ -22,12 +28,16 @@ export const Form: FC<IFormProps> = ({
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleOnSave({
-      password: passwordValue,
-      domain: domainValue,
-      alias: aliasValue,
-      iconUrl: iconUrlValue,
-    } as PasswordDto);
+    handleOnSave(
+      {
+        id: idValue,
+        password: passwordValue,
+        domain: domainValue,
+        alias: aliasValue,
+        iconUrl: iconUrlValue,
+      } as PasswordDto,
+      formType
+    );
   };
 
   return (
@@ -77,6 +87,11 @@ export const Form: FC<IFormProps> = ({
           />
         </div>
         <div className="form-buttons">
+          {formType === "edit" && (
+            <button onClick={() => handleOnDelete(password as PasswordDto)}>
+              Delete
+            </button>
+          )}
           <button type="submit">
             {formType === "edit" ? "Save" : "Create"}
           </button>

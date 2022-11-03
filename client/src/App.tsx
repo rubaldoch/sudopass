@@ -8,14 +8,16 @@ import { PasswordDto } from "./interfaces/passwordDto";
 
 const fakePasswords: PasswordDto[] = [
   {
+    id: "1",
     password: "passwordasdsadasdasdasdadd",
     domain: "google.com",
     alias: "google",
   },
   {
+    id: "2",
     password: "password123456",
     domain: "facebook.com",
-    alias: "mi cuenta :D", // Límite de caracteres es 12
+    alias: "mi cuenta :D",
     iconUrl: "https://www.facebook.com/images/fb_icon_325x325.png",
   },
 ];
@@ -36,9 +38,25 @@ function App() {
     setSelectedPassword(null);
   };
 
-  const handleOnFormSave = (password: PasswordDto) => {
+  const handleOnFormSave = (
+    password: PasswordDto,
+    type: "create" | "edit" | "none"
+  ) => {
     setIsFormVisible(false);
     setSelectedPassword(null);
+    if (type === "create") {
+      fakePasswords.push(password);
+    } else {
+      const index = fakePasswords.findIndex((p) => p.id === password.id);
+      fakePasswords[index] = password;
+    }
+  };
+
+  const handleOnFormDelete = (password: PasswordDto) => {
+    setIsFormVisible(false);
+    setSelectedPassword(null);
+    const index = fakePasswords.findIndex((p) => p.id === password.id);
+    fakePasswords.splice(index, 1);
   };
 
   const handleOnFormClose = () => {
@@ -53,6 +71,7 @@ function App() {
         password={selectedPassword}
         handleOnSave={handleOnFormSave}
         handleOnClose={handleOnFormClose}
+        handleOnDelete={handleOnFormDelete}
         formType={selectedPassword ? "edit" : "create"}
       />
     );
@@ -68,7 +87,7 @@ function App() {
           <PasswordModel
             password={passwordDto}
             handleOnEdit={handleOnEditPressed}
-            key={passwordDto.domain}
+            key={passwordDto.id}
           />
         ))}
       </>
