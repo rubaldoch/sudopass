@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 
 import { CredentialService } from './credential.service';
 
@@ -26,5 +26,10 @@ export class CredentialController {
   @Get()
   async findAll(): Promise<Credential[]> {
     return this.service.findAll();
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<Credential> {
+    return this.service.delete(id);
   }
 }

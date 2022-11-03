@@ -22,6 +22,10 @@ export class CredentialService {
     return this.model.findOneAndUpdate({ _id: id }, itemDto);
   }
 
+  async delete(id: string): Promise<Credential> {
+    return this.model.findOneAndDelete({ _id: id });
+  }
+
   async findAll(): Promise<Credential[]> {
     return this.model.find().exec();
   }
