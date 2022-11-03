@@ -1,9 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from '../modules/user/user.service';
-
-import { AlreadyRegisteredException } from './exceptions/alreadyRegistered.exeption';
 
 
 @Injectable()
@@ -34,7 +32,7 @@ export class AuthService {
   async signup(user: any) {
     const existingUser = await this.userService.findOne(user.email);
     if (existingUser) {
-      throw new AlreadyRegisteredException();
+      throw new BadRequestException('User already exists');
     }
 
     const newUser = await this.userService.create(user);
