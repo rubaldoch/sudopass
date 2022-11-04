@@ -14,17 +14,58 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Header } from '../components/Header/header';
 import Copyright from '../components/CopyRight/copyright';
+import AuthApi from '../api/auth';
+import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+  const history = useNavigate()
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState<any>(undefined);
+  const [success, setSucess] = React.useState<any>(undefined);
+  const [buttonText, setButtonText] = React.useState<any>("Iniciar Sesión");
+
+  const handleSubmit = async (event: any) => {
+    if (event) {
+      event.preventDefault();
+    }
+    if (email === "") {
+      return setError("Debe ingresar su correo electrónico.");
+    }
+    if (password === "") {
+      return setError("Debe ingresar su contraseña.");
+    }
+    setButtonText("Login in");
+    try {
+      let response = await AuthApi.Login({
+        email,
+        password,
+      });
+      if (response.data && response.data.success === false) {
+        return setError(response.data.msg);
+      }
+      return setProfile(response);
+    } catch (err: any) {
+      console.log(err);
+      setButtonText("Login");
+      if (err.response) {
+        return setError(err.response.data.msg);
+      }
+      return setError("Ha ocurrido un error.");
+    }
+  };
+
+  const setProfile = async (response: any) => {
+    let user = { ...response.data.user };
+    user.token = response.data.token;
+    user = JSON.stringify(user);
+    // setUser(user);
+    localStorage.setItem("user", user);
+    return history("/dashboard");
   };
 
   return (
@@ -56,6 +97,10 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setError(undefined);
+              }}
             />
             <TextField
               margin="normal"
@@ -66,18 +111,25 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setError(undefined);
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            { error && (<Alert severity="error">{error}</Alert> )}
+            {success && (<Alert severity="success">{success}</Alert>)}
+        
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+            {buttonText}
             </Button>
             <Grid container>
               <Grid item xs>

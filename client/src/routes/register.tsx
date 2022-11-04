@@ -14,6 +14,7 @@ import { Header } from '../components/Header/header';
 import Copyright from '../components/CopyRight/copyright';
 import AuthApi from '../api/auth';
 import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
 const theme = createTheme();
 
@@ -29,12 +30,6 @@ export default function Register() {
   const [success, setSuccess] = React.useState<string>();
 
 const register = async (event: any) => {
-    console.log({
-        userName,
-        email,
-        password,
-    });
-
     if (event) {
         event.preventDefault();
     }
@@ -48,6 +43,9 @@ const register = async (event: any) => {
     if (password === "") {
         return setError("You must enter a password.");
     }
+    if (password !== password2) {
+      return setError("The passwords doesn't match.");
+  }
 
     try {
         setButtonText("Signin Up");
@@ -152,13 +150,15 @@ const register = async (event: any) => {
                 />
               </Grid>
             </Grid>
+            { error && (<Alert severity="error">{error}</Alert> )}
+            {success && (<Alert severity="success">{success}</Alert>)}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {buttonText}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
