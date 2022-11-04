@@ -59,7 +59,7 @@ const register = async (event: any) => {
           return setError(response.data.msg);
         }
         setSuccess(response.data.msg)
-        return history("/auth/login");
+        return history("/login");
       } catch (err: any) {
         setButtonText("Sign Up");
         if (err.response) {
@@ -97,7 +97,7 @@ const register = async (event: any) => {
                   required
                   fullWidth
                   id="userName"
-                  label="User Name"
+                  label="Username"
                   autoFocus
                   onChange={(event) => {
                     setUserName(event.target.value);

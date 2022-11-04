@@ -28,6 +28,8 @@ export default function Login() {
   const [error, setError] = React.useState<any>(undefined);
   const [success, setSucess] = React.useState<any>(undefined);
   const [buttonText, setButtonText] = React.useState<any>("Iniciar Sesión");
+  const [openError, setOpenError] = React.useState(true);
+  const [openSuccess, setOpenSuccess] = React.useState(true);
 
   const handleSubmit = async (event: any) => {
     if (event) {
