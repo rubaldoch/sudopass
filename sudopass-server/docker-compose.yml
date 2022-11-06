@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  nestapp:
+    container_name: nestapp
+    image: nestapp
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    command: npm run start:dev
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+      # - 9229:9229
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongodb
+    networks:
+      - server-network
+    restart: unless-stopped
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    env_file:
+      - .env
+    networks:
+      - server-network
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+
+networks:
+  server-network:
+    driver: bridge

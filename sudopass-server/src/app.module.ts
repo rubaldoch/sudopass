@@ -5,14 +5,14 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { CredentialModule } from './modules/credential/credential.module';
 
-const url = process.env.MONGO_HOSTNAME || 'localhost';
-const dbName = process.env.MONGO_DATABASE || 'sudopass';
+const url = process.env.MONGO_HOSTNAME || 'mongodb';
+const port = process.env.MONGO_PORT || '27017';
 @Module({
   imports: [
     AuthModule,
     UserModule,
     CredentialModule,
-    MongooseModule.forRoot(`mongodb://${url}/${dbName}`),
+    MongooseModule.forRoot(`mongodb://${url}:${port}`),
   ],
 })
 export class AppModule {}

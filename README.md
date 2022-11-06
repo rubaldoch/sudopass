@@ -4,6 +4,21 @@
 
 ## Backend
 
+### Usando Docker
+
+**Dependencias:**
+
+- Docker
+- Docker compose
+
+```bash
+docker-compose up --build
+```
+
+El servicio empezará a ejecutarse en `http://localhost:4200/`
+
+### Local
+
 **Dependencias:**
 
 - Node version >=16
