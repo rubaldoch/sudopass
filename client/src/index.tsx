@@ -1,29 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import "./index.css";
-import Root from "./routes/root";
-import ErrorPage from "./error-page";
-import App from "./App";
-import Login from "./routes/login";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Register from "./routes/register";
+import { Login } from "./routes/Login/login";
+import { Auth0Provider } from "@auth0/auth0-react";
+import Dashboard from "./routes/dashboard/dashboard";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
-    errorElement: <ErrorPage />,
+    element: <Login />,
   },
   {
     path: "dashboard/",
-    element: <App />,
-  },
-  {
-    path: "login/",
-    element: <Login />,
+    element: <Dashboard />,
   },
   {
     path: "register/",
@@ -37,7 +28,13 @@ const root = ReactDOM.createRoot(
 
 // SudoPass must run on 360x550 px dimensions
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <Auth0Provider
+    domain={process.env.REACT_APP_AUTH0_DOMAIN ?? ""}
+    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID ?? ""}
+    redirectUri={window.location.origin}
+  >
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Auth0Provider>
 );

@@ -1,10 +1,10 @@
-import { useState } from "react";
-import "./App.css";
-import { CreateButton } from "./components/CreateButton/createButton";
-import { Form } from "./components/Form/form";
-import { Header } from "./components/Header/header";
-import { PasswordModel } from "./components/PasswordModel/passwordModel";
-import { PasswordDto } from "./interfaces/passwordDto";
+import { FC, useState } from "react";
+import { CreateButton } from "../../components/CreateButton/createButton";
+import { Form } from "../../components/Form/form";
+import { Header } from "../../components/Header/header";
+import { PasswordModel } from "../../components/PasswordModel/passwordModel";
+import { PasswordDto } from "../../interfaces/passwordDto";
+import "./dashboard.css";
 
 const fakePasswords: PasswordDto[] = [
   {
@@ -22,7 +22,7 @@ const fakePasswords: PasswordDto[] = [
   },
 ];
 
-function App() {
+const Dashboard: FC = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPassword, setSelectedPassword] = useState<PasswordDto | null>(
     null
@@ -95,12 +95,12 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="dashboard">
       <Header />
       {renderForm()}
       {renderPasswords()}
     </div>
   );
-}
+};
 
-export default App;
+export default Dashboard;
