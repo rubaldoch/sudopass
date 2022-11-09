@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Register from "./routes/register";
 import { Login } from "./routes/Login/login";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Dashboard from "./routes/dashboard/dashboard";
@@ -15,10 +14,6 @@ const router = createBrowserRouter([
   {
     path: "dashboard/",
     element: <Dashboard />,
-  },
-  {
-    path: "register/",
-    element: <Register />,
   },
 ]);
 
