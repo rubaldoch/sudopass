@@ -42,6 +42,14 @@
     border-radius: 5px;
     padding: 5px;
     font-size: 15px;
+    margin-top: 10px;
+}
+.master-password-container span{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #fff;
+    text-align: center;
+    width: 80%;
 }
 
 .master-password-container button{
