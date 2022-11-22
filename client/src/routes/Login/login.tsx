@@ -78,12 +78,16 @@ export const Login: FC = () => {
         <div className="master-password-container">
           <input
             type="password"
+            placeholder="Input Password"
             onChange={(e) => setInputPassword(e.target.value)}
           />
           <input
             type="password"
+            placeholder="Confirm Password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <span>Please remember to store your password in a safe place!</span>
+          <span>If you forget your password, you will lose all your data.</span>
           <button onClick={handleOnSignInWithMasterPasswordPressed}>
             Sign Up
           </button>

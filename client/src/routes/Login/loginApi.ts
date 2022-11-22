@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 
 export const fetchDoesUserExist = async (email: string) => {
-  const res = await axios.get(API_SERVER + "/auth/exist-user/" + email);
+  const res = await axios.get(API_SERVER + "/auth/user-exist/" + email);
   return res.data;
 };
 
