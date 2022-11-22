@@ -1,4 +1,4 @@
-import { Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 
 import { Request } from 'express';
 
@@ -19,5 +19,10 @@ export class AuthController {
   @Post('signup')
   async signup(@Req() req: Request) {
     return this.authService.signup(req.body);
+  }
+
+  @Get('user-exist/:email')
+  async userExist(@Param('email') email: string) {
+    return this.authService.existsUser(email);
   }
 }
