@@ -27,8 +27,6 @@ services:
     container_name: mongodb
     networks:
       - server-network
-    ports:
-      - 27017:27017
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
       interval: 30s
