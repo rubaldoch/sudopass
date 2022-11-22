@@ -18,7 +18,7 @@ export class AuthService {
     if (user) {
       return { email: user.email };
     }
-    return null;
+    return { msg: 'User misspelling or not exist' };
   }
 
   async validateUser(email: string, password: string): Promise<any> {
