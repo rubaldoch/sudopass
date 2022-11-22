@@ -5,20 +5,16 @@ import * as bcrypt from 'bcrypt';
 
 import { UserService } from '../modules/user/user.service';
 
-
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
-  async existsUser(email: string): Promise<any> {
+  async userExists(email: string): Promise<boolean> {
     const user = await this.userService.findOne(email);
-    if (user) {
-      return { email: user.email };
-    }
-    return { msg: 'User misspelling or not exist' };
+    return !!user;
   }
 
   async validateUser(email: string, password: string): Promise<any> {

@@ -11,6 +11,6 @@ export const createUser = async (body: {
   alias: string;
   password: string;
 }) => {
-  const res = await axios.post(API_SERVER + "/credentials", body);
+  const res = await axios.post(API_SERVER + "/auth/signup", body);
   return res.data;
 };

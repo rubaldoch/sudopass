@@ -27,6 +27,7 @@ export const Login: FC = () => {
   const createUserMutation = useMutation(createUser, {
     onSuccess: () => {
       queryClient.refetchQueries(["user", user?.email]);
+      alert("User created successfully");
     },
   });
 
@@ -35,14 +36,14 @@ export const Login: FC = () => {
   };
 
   const handleOnSignInWithMasterPasswordPressed = () => {
-    if (inputPassword !== confirmPassword) {
+    if (inputPassword !== confirmPassword && !doesUserExist) {
       alert("Passwords do not match");
       return;
     }
 
     if (doesUserExist) {
-      alert("User already exists");
-      return;
+      // TODO validate master password
+      navigate("/dashboard");
     } else {
       createUserMutation.mutate({
         email: user?.email ?? "",
@@ -50,7 +51,6 @@ export const Login: FC = () => {
         alias: user?.name ?? "",
       });
     }
-    navigate("/dashboard");
   };
 
   const isLoading = isAuthLoading || isUserLoading;
@@ -67,6 +67,7 @@ export const Login: FC = () => {
         <div className="master-password-container">
           <input
             type="password"
+            placeholder="Input Password"
             onChange={(e) => setInputPassword(e.target.value)}
           />
           <button onClick={handleOnSignInWithMasterPasswordPressed}>
