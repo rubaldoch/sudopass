@@ -58,7 +58,7 @@ export const Login: FC = () => {
   return (
     <div className="login-container">
       <SudoPassLogo />
-      {!isAuthenticated && !isLoading && (
+      {!isAuthenticated && (
         <button onClick={handleOnSignInWithGooglePressed}>
           Login with Google
         </button>
@@ -94,7 +94,7 @@ export const Login: FC = () => {
           </button>
         </div>
       )}
-      {isLoading && <span>Loading...</span>}
+      {isAuthenticated && isLoading && <span>Loading...</span>}
     </div>
   );
 };
