@@ -22,7 +22,7 @@ export class AuthController {
   }
 
   @Get('user-exist/:email')
-  async userExist(@Param('email') email: string) {
-    return this.authService.existsUser(email);
+  async userExists(@Param('email') email: string) {
+    return this.authService.userExists(email);
   }
 }
