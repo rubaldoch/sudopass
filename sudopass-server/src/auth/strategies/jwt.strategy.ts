@@ -7,6 +7,7 @@ import { AuthService } from '../auth.service';
 
 import { jwtConstants } from '../constants';
 
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
@@ -18,10 +19,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    const user = await this.authService.userExists(payload.email);
+    const user = await this.authService.existsUser(payload.email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    return user;
+    return { email: user.email };
   }
 }
