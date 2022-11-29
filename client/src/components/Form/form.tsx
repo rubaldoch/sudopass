@@ -1,5 +1,8 @@
+import { Tooltip } from "@mui/material";
 import { FC, useState } from "react";
 import { PasswordDto } from "../../interfaces/passwordDto";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import { generate } from "@wcj/generate-password";
 import "./form.css";
 
 interface IFormProps {
@@ -40,6 +43,18 @@ export const Form: FC<IFormProps> = ({
     );
   };
 
+  const generatePassword = () => {
+    setPasswordValue(
+      generate({
+        length: 15,
+        numeric: true,
+        special: true,
+        upperCase: true,
+        lowerCase: true,
+      })
+    );
+  };
+
   return (
     <div className="form-container">
       <div className="form-header">
@@ -52,12 +67,19 @@ export const Form: FC<IFormProps> = ({
       <form className="form" onSubmit={handleOnSubmit}>
         <div className="form-input">
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordValue}
-            onChange={(event) => setPasswordValue(event.target.value)}
-          />
+          <div className="password-input">
+            <input
+              type="password"
+              id="password"
+              value={passwordValue}
+              onChange={(event) => setPasswordValue(event.target.value)}
+            />
+            <Tooltip title="Generate Password" placement="top">
+              <div className="password-button" onClick={generatePassword}>
+                <AutoAwesomeIcon fontSize="small" />
+              </div>
+            </Tooltip>
+          </div>
         </div>
         <div className="form-input">
           <label htmlFor="domain">Domain</label>
