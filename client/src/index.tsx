@@ -4,8 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Login } from "./routes/Login/login";
 import { Auth0Provider } from "@auth0/auth0-react";
-import Dashboard from "./routes/Dashboard/dashboard";
 import "./index.css";
+import Dashboard from "./routes/dashboard/dashboard";
 
 const router = createBrowserRouter([
   {
