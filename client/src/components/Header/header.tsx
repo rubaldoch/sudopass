@@ -9,7 +9,9 @@ export const Header: FC = () => {
 
   return (
     <div className="header">
-      <SudoPassMiniLogo />
+      <div className="header-logo">
+        <SudoPassMiniLogo />
+      </div>
       <div className="profile-button">
         <LogoutIcon fontSize="medium" onClick={() => logout()} />
       </div>
