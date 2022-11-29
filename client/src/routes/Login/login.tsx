@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SudoPassLogo } from "../../components/Icons/sudoPassLogo";
-import { createUser, fetchDoesUserExist } from "./loginApi";
+import { createUser, fetchDoesUserExist, loginUser } from "./loginApi";
 import "./login.css";
 
 export const Login: FC = () => {
@@ -31,6 +31,18 @@ export const Login: FC = () => {
     },
   });
 
+  const loginUserMutation = useMutation(loginUser, {
+    onSuccess: (data, variables, context) => {
+      const { access_token } = data;
+      localStorage.setItem('access_token', access_token);
+      navigate("/dashboard");
+      //queryClient.refetchQueries(["user", user?.email]);// revisar
+    },
+    onError: () => {
+      alert("User login failed");
+    }
+  });
+
   const handleOnSignInWithGooglePressed = () => {
     loginWithRedirect();
   };
@@ -43,7 +55,10 @@ export const Login: FC = () => {
 
     if (doesUserExist) {
       // TODO validate master password
-      navigate("/dashboard");
+      loginUserMutation.mutate({
+        email: user?.email ?? "",
+        password: inputPassword,
+      })
     } else {
       createUserMutation.mutate({
         email: user?.email ?? "",
