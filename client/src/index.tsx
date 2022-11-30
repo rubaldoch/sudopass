@@ -24,6 +24,8 @@ const root = ReactDOM.createRoot(
 );
 
 export interface IApplicatonContext {
+  secret: string;
+  setSecret: (secret: string) => void;
   accessToken: string;
   setAccessToken: (accessToken: string) => void;
 }
@@ -31,11 +33,14 @@ export interface IApplicatonContext {
 export const ApplicationContext = createContext<IApplicatonContext>({
   accessToken: "",
   setAccessToken: () => {},
+  secret: "",
+  setSecret: () => {},
 });
 
 const queryClient = new QueryClient();
 
 const App: FC = () => {
+  const [secret, setSecret] = useState("");
   const [accessToken, setAccessToken] = useState("");
   return (
     <Auth0Provider
@@ -43,7 +48,7 @@ const App: FC = () => {
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID ?? ""}
       redirectUri={window.location.origin}
     >
-      <ApplicationContext.Provider value={{ accessToken, setAccessToken }}>
+      <ApplicationContext.Provider value={{ accessToken, setAccessToken, secret, setSecret }}>
         <QueryClientProvider client={queryClient}>
           <React.StrictMode>
             <RouterProvider router={router} />

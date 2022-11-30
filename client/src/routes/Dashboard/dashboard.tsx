@@ -68,11 +68,13 @@ export const Dashboard: FC = () => {
       createPasswordMutation.mutate({
         body: password,
         access_token: context.accessToken,
+        secret: context.secret,
       });
     } else {
       updatePasswordMutation.mutate({
         body: password,
         access_token: context.accessToken,
+        secret: context.secret,
       });
     }
   };

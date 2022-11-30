@@ -48,6 +48,7 @@ export const Login: FC = () => {
     onSuccess: (data) => {
       const { access_token } = data;
       context.setAccessToken("Bearer " + (access_token as string));
+      context.setSecret((inputPassword as string));
       navigate("/dashboard");
     },
     onError: () => {

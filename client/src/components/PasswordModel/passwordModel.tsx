@@ -1,11 +1,12 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import CreateIcon from "@mui/icons-material/Create";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import "./passwordModel.css";
 import { PasswordDto } from "../../interfaces/passwordDto";
-
+import { decrypt } from '../../config/utils';
+import { ApplicationContext } from "../..";
 interface IPasswordModelProps {
   password: PasswordDto;
   handleOnEdit: (password: PasswordDto) => void;
@@ -15,6 +16,8 @@ export const PasswordModel: FC<IPasswordModelProps> = ({
   password,
   handleOnEdit,
 }) => {
+  const context = useContext(ApplicationContext);
+
   const [copyMessage, setCopyMessage] = useState("Copy Password");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -26,6 +29,9 @@ export const PasswordModel: FC<IPasswordModelProps> = ({
   } = password;
 
   const handleShowPassword = () => {
+    const decrypted = decrypt(password.password, context.secret);
+    console.log(decrypted)
+    console.log(password.password)
     setIsPasswordVisible(!isPasswordVisible);
   };
 
