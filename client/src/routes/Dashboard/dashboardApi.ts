@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_SERVER } from "../../config/constant";
 import { PasswordDto } from "../../interfaces/passwordDto";
-import { encrypt, decrypt } from "../../config/utils";
+import { encrypt } from "../../config/utils";
 export const fetchAllPasswords = async (access_token: string) => {
   const res = await axios.get(API_SERVER + "/credential", {
     headers: {
@@ -32,6 +32,8 @@ export const updatePassword = async (vars: {
   access_token: string;
   secret: string;
 }) => {
+  const encryptData = encrypt(vars.body.password, vars.secret);
+  vars.body.password = encryptData;
   const res = await axios.put(
     API_SERVER + "/credential/" + vars.body._id,
     vars.body,

@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FC, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FC, useContext, useState } from "react";
 import { ApplicationContext } from "../..";
 import { CreateButton } from "../../components/CreateButton/createButton";
 import { Form } from "../../components/Form/form";
@@ -17,7 +16,6 @@ import {
 
 export const Dashboard: FC = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const context = useContext(ApplicationContext);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPassword, setSelectedPassword] = useState<PasswordDto | null>(
@@ -94,13 +92,6 @@ export const Dashboard: FC = () => {
     setIsFormVisible(false);
     setSelectedPassword(null);
   };
-
-  useEffect(() => {
-    if (!context.accessToken) {
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context.accessToken]);
 
   const renderForm = () => {
     if (!isFormVisible) return;
