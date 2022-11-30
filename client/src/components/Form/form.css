@@ -1,0 +1,119 @@
+.form-container {
+  background-color: white;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+.form-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: #FF7700;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-close-button{
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.form-input{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.form-input > input {
+    width: 100%;
+    height: 30px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 1px solid #FF7700;
+    outline: none;
+}
+
+.form-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.form-buttons > button {
+    width: 49%;
+    height: 30px;
+    border: none;
+    background-color: #FF7700;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.password-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.password-input > input{
+    flex: 1;
+    width: 100%;
+    height: 30px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 1px solid #FF7700;
+    outline: none;
+}
+
+.password-button{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 49%;
+    width: 70px;
+    background-color: #FF7700;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    color:white;
+    display: flex;
+    flex-direction: column;
+    transition-duration: 0.4s;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    cursor: pointer;
+}
+
+.password-button:hover{
+    background-color: white;
+    color:#DA6A08;
+    border-color: #DA6A08;
+    border-style: solid;
+    border-width: 2px;  
+}
