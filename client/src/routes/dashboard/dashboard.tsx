@@ -1,4 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FC, useContext, useState } from "react";
 import { ApplicationContext } from "../..";
@@ -16,7 +15,6 @@ import {
 } from "./dashboardApi";
 
 export const Dashboard: FC = () => {
-  const { user } = useAuth0();
   const queryClient = useQueryClient();
   const context = useContext(ApplicationContext);
   const [isFormVisible, setIsFormVisible] = useState(false);
