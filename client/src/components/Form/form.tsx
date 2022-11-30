@@ -26,8 +26,9 @@ export const Form: FC<IFormProps> = ({
   const [idValue] = useState(password?.id || "");
   const [passwordValue, setPasswordValue] = useState(password?.password || "");
   const [domainValue, setDomainValue] = useState(password?.domain || "");
-  const [aliasValue, setAliasValue] = useState(password?.alias || "");
+  const [aliasValue, setAliasValue] = useState(password?.domainAlias || "");
   const [iconUrlValue, setIconUrlValue] = useState(password?.iconUrl || "");
+  const [usernameValue, setUsernameValue] = useState(password?.user || "");
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,8 +37,9 @@ export const Form: FC<IFormProps> = ({
         id: idValue,
         password: passwordValue,
         domain: domainValue,
-        alias: aliasValue,
+        domainAlias: aliasValue,
         iconUrl: iconUrlValue,
+        user: usernameValue,
       } as PasswordDto,
       formType
     );
@@ -97,6 +99,15 @@ export const Form: FC<IFormProps> = ({
             id="alias"
             value={aliasValue}
             onChange={(event) => setAliasValue(event.target.value)}
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={usernameValue}
+            onChange={(event) => setUsernameValue(event.target.value)}
           />
         </div>
         <div className="form-input">

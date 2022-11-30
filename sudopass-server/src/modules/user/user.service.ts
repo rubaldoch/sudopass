@@ -7,7 +7,6 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from 'src/dto/user.dto';
 import { Credential } from 'src/schemas/credential.schema';
 
-
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private model: Model<UserDocument>) {}
@@ -29,16 +28,30 @@ export class UserService {
     return this.model.findOne({ email: email }).exec();
   }
 
-  async findOneByCredential(email: string, credentialId: string): Promise<User> {
-    return this.model.findOne({ email: email, credentials: { $elemMatch: { $eq: credentialId } } }).exec();
+  async findOneByCredential(
+    email: string,
+    credentialId: string,
+  ): Promise<User> {
+    return this.model
+      .findOne({
+        email: email,
+        credentials: { $elemMatch: { $eq: credentialId } },
+      })
+      .exec();
   }
 
   async pushCredential(email: string, credential: Credential): Promise<User> {
-    return this.model.findOneAndUpdate({ email: email }, { $push: { credentials: credential } });
+    return this.model.findOneAndUpdate(
+      { email: email },
+      { $push: { credentials: credential } },
+    );
   }
 
   async readAllCredentials(email: string): Promise<Credential[]> {
-    const user = await this.model.findOne({ email: email }).populate('credentials').exec();
-    return user.credentials;
+    const user = await this.model
+      .findOne({ email: email })
+      .populate('credentials')
+      .exec();
+    return user ? user.credentials : [];
   }
 }

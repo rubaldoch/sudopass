@@ -1,5 +1,7 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
+import { ApplicationContext } from "../..";
 import { CreateButton } from "../../components/CreateButton/createButton";
 import { Form } from "../../components/Form/form";
 import { Header } from "../../components/Header/header";
@@ -13,31 +15,21 @@ import {
   updatePassword,
 } from "./dashboardApi";
 
-const fakePasswords: PasswordDto[] = [
-  {
-    id: "1",
-    password: "passwordasdsadasdasdasdadd",
-    domain: "google.com",
-    alias: "google",
-  },
-  {
-    id: "2",
-    password: "password123456",
-    domain: "facebook.com",
-    alias: "mi cuenta :D",
-    iconUrl: "https://www.facebook.com/images/fb_icon_325x325.png",
-  },
-];
-
 export const Dashboard: FC = () => {
+  const { user } = useAuth0();
   const queryClient = useQueryClient();
+  const context = useContext(ApplicationContext);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPassword, setSelectedPassword] = useState<PasswordDto | null>(
     null
   );
 
-  const { data, isLoading } = useQuery<PasswordDto[]>(["passwords"], () =>
-    fetchAllPasswords()
+  const { data, isLoading } = useQuery<PasswordDto[]>(
+    ["passwords"],
+    () => fetchAllPasswords(context.accessToken),
+    {
+      enabled: !!context.accessToken,
+    }
   );
 
   const createPasswordMutation = useMutation(createPassword, {
@@ -75,16 +67,25 @@ export const Dashboard: FC = () => {
     setIsFormVisible(false);
     setSelectedPassword(null);
     if (type === "create") {
-      createPasswordMutation.mutate(password);
+      createPasswordMutation.mutate({
+        body: password,
+        access_token: context.accessToken,
+      });
     } else {
-      updatePasswordMutation.mutate(password);
+      updatePasswordMutation.mutate({
+        body: password,
+        access_token: context.accessToken,
+      });
     }
   };
 
   const handleOnFormDelete = (password: PasswordDto) => {
     setIsFormVisible(false);
     setSelectedPassword(null);
-    deletePasswordMutation.mutate(password.id);
+    deletePasswordMutation.mutate({
+      id: password.id,
+      access_token: context.accessToken,
+    });
   };
 
   const handleOnFormClose = () => {

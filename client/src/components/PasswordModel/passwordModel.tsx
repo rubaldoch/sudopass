@@ -18,7 +18,12 @@ export const PasswordModel: FC<IPasswordModelProps> = ({
   const [copyMessage, setCopyMessage] = useState("Copy Password");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const { password: passwordValue, domain, alias, iconUrl } = password;
+  const {
+    password: passwordValue,
+    domain,
+    domainAlias: alias,
+    iconUrl,
+  } = password;
 
   const handleShowPassword = () => {
     setIsPasswordVisible(!isPasswordVisible);

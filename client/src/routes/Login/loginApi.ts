@@ -14,3 +14,11 @@ export const createUser = async (body: {
   const res = await axios.post(API_SERVER + "/auth/signup", body);
   return res.data;
 };
+
+export const loginUser = async (body: {
+  email: string;
+  password: string;
+}) => {
+  const res = await axios.post(API_SERVER + "/auth/login", body);
+  return res.data;
+};
