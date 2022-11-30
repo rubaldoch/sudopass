@@ -54,5 +54,5 @@ const App: FC = () => {
   );
 };
 
-// SudoPass must run on 360x550 px dimensions
+// SudoPass must run on 450x650 px dimensions
 root.render(<App />);

@@ -1,5 +1,5 @@
 export interface PasswordDto {
-  id: string;
+  _id: string;
   password: string;
   domain: string;
   domainAlias: string;

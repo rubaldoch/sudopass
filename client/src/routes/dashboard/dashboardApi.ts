@@ -29,7 +29,7 @@ export const updatePassword = async (vars: {
   access_token: string;
 }) => {
   const res = await axios.put(
-    API_SERVER + "/credential/" + vars.body.id,
+    API_SERVER + "/credential/" + vars.body._id,
     vars.body,
     {
       headers: {

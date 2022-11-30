@@ -23,7 +23,7 @@ export const Form: FC<IFormProps> = ({
   handleOnDelete,
   formType,
 }) => {
-  const [idValue] = useState(password?.id || "");
+  const [idValue] = useState(password?._id || "");
   const [passwordValue, setPasswordValue] = useState(password?.password || "");
   const [domainValue, setDomainValue] = useState(password?.domain || "");
   const [aliasValue, setAliasValue] = useState(password?.domainAlias || "");
@@ -34,7 +34,7 @@ export const Form: FC<IFormProps> = ({
     event.preventDefault();
     handleOnSave(
       {
-        id: idValue,
+        _id: idValue,
         password: passwordValue,
         domain: domainValue,
         domainAlias: aliasValue,
