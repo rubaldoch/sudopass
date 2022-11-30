@@ -5,7 +5,7 @@ export type CredentialDocument = Credential & Document;
 
 @Schema()
 export class Credential {
-  @Prop({ required: true })
+  @Prop({ required: false })
   domainAlias: string;
 
   @Prop({ required: true })

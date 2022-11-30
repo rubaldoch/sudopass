@@ -8,7 +8,6 @@ import { UserService } from '../user/user.service';
 import { Credential, CredentialDocument } from 'src/schemas/credential.schema';
 import { CredentialDto } from 'src/dto/credential.dto';
 
-
 @Injectable()
 export class CredentialService {
   constructor(
@@ -25,7 +24,11 @@ export class CredentialService {
     return credential;
   }
 
-  async update(auth: any, id: string, itemDto: CredentialDto): Promise<Credential> {
+  async update(
+    auth: any,
+    id: string,
+    itemDto: CredentialDto,
+  ): Promise<Credential> {
     itemDto.lastUpdate = new Date(Date.now());
     await this.findOne(auth, id);
     return this.model.findOneAndUpdate({ _id: id }, itemDto);
@@ -43,7 +46,9 @@ export class CredentialService {
   async findOne(auth: any, id: string): Promise<Credential> {
     const user = await this.userService.findOneByCredential(auth.email, id);
     if (!user) {
-      throw new BadRequestException(`User ${auth.email} not found with credential ${id}`);
+      throw new BadRequestException(
+        `User ${auth.email} not found with credential ${id}`,
+      );
     }
     return this.model.findOne({ _id: id }).exec();
   }

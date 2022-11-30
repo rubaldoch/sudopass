@@ -1,4 +1,13 @@
-import { Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 
 import { Request } from 'express';
 
@@ -8,7 +17,6 @@ import { JwtAuthGuard } from 'src/auth/guards';
 
 import { Credential } from 'src/schemas/credential.schema';
 import { CredentialDto } from 'src/dto/credential.dto';
-
 
 @UseGuards(JwtAuthGuard)
 @Controller('credential')
@@ -23,14 +31,20 @@ export class CredentialController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Req() req: Request): Promise<Credential>  {
+  async update(
+    @Param('id') id: string,
+    @Req() req: Request,
+  ): Promise<Credential> {
     const user = req.user as any;
     const item = req.body as CredentialDto;
     return this.service.update(user, id, item);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() req: Request): Promise<Credential> {
+  async findOne(
+    @Param('id') id: string,
+    @Req() req: Request,
+  ): Promise<Credential> {
     const user = req.user as any;
     return this.service.findOne(user, id);
   }
@@ -42,7 +56,10 @@ export class CredentialController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string, @Req() req: Request): Promise<Credential> {
+  async delete(
+    @Param('id') id: string,
+    @Req() req: Request,
+  ): Promise<Credential> {
     const user = req.user as any;
     return this.service.delete(user, id);
   }

@@ -2,6 +2,7 @@ export interface PasswordDto {
   id: string;
   password: string;
   domain: string;
-  alias: string;
+  domainAlias: string;
   iconUrl?: string;
+  user: string;
 }

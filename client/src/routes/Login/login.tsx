@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SudoPassLogo } from "../../components/Icons/sudoPassLogo";
-import { createUser, fetchDoesUserExist } from "./loginApi";
 import PasswordChecklist from "react-password-checklist";
+import { createUser, fetchDoesUserExist, loginUser } from "./loginApi";
 import "./login.css";
 import {
   Button,
@@ -14,6 +14,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { ApplicationContext } from "../..";
 
 export const Login: FC = () => {
   const {
@@ -24,6 +25,7 @@ export const Login: FC = () => {
   } = useAuth0();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const context = useContext(ApplicationContext);
 
   const [inputPassword, setInputPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -42,14 +44,27 @@ export const Login: FC = () => {
     },
   });
 
+  const loginUserMutation = useMutation(loginUser, {
+    onSuccess: (data) => {
+      const { access_token } = data;
+      context.setAccessToken("Bearer " + (access_token as string));
+      navigate("/dashboard");
+    },
+    onError: () => {
+      alert("User login failed, invalid credentials");
+    },
+  });
+
   const handleOnSignInWithGooglePressed = () => {
     loginWithRedirect();
   };
 
   const handleOnSignInWithMasterPasswordPressed = () => {
     if (doesUserExist) {
-      // TODO validate master password
-      navigate("/dashboard");
+      loginUserMutation.mutate({
+        email: user?.email ?? "",
+        password: inputPassword,
+      });
     } else {
       createUserMutation.mutate({
         email: user?.email ?? "",
