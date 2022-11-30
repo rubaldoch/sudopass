@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, createMemoryRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Login } from "./routes/Login/login";
 import { Dashboard } from "./routes/Dashboard/dashboard";
@@ -8,7 +8,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { createContext } from "react";
 import "./index.css";
 
-const router = createBrowserRouter([
+const router = createMemoryRouter([
   {
     path: "/",
     element: <Login />,
