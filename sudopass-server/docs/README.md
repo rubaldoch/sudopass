@@ -158,7 +158,7 @@
 4. Update a credential by id
    - Request
      ```bash
-        curl --request GET \
+        curl --request PUT \
         --url http://localhost:4200/credential/637c3c078c0e51a4ec64fd42 \
         --header 'Authorization: Bearer eyJhbGc...'
      ```

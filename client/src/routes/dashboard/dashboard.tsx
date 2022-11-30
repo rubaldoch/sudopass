@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import { CreateButton } from "../../components/CreateButton/createButton";
 import { Form } from "../../components/Form/form";
@@ -5,6 +6,12 @@ import { Header } from "../../components/Header/header";
 import { PasswordModel } from "../../components/PasswordModel/passwordModel";
 import { PasswordDto } from "../../interfaces/passwordDto";
 import "./dashboard.css";
+import {
+  createPassword,
+  deletePassword,
+  fetchAllPasswords,
+  updatePassword,
+} from "./dashboardApi";
 
 const fakePasswords: PasswordDto[] = [
   {
@@ -22,11 +29,34 @@ const fakePasswords: PasswordDto[] = [
   },
 ];
 
-const Dashboard: FC = () => {
+export const Dashboard: FC = () => {
+  const queryClient = useQueryClient();
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPassword, setSelectedPassword] = useState<PasswordDto | null>(
     null
   );
+
+  const { data, isLoading } = useQuery<PasswordDto[]>(["passwords"], () =>
+    fetchAllPasswords()
+  );
+
+  const createPasswordMutation = useMutation(createPassword, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["passwords"]);
+    },
+  });
+
+  const updatePasswordMutation = useMutation(updatePassword, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["passwords"]);
+    },
+  });
+
+  const deletePasswordMutation = useMutation(deletePassword, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["passwords"]);
+    },
+  });
 
   const handleOnEditPressed = (password: PasswordDto) => {
     setIsFormVisible(true);
@@ -45,18 +75,16 @@ const Dashboard: FC = () => {
     setIsFormVisible(false);
     setSelectedPassword(null);
     if (type === "create") {
-      fakePasswords.push(password);
+      createPasswordMutation.mutate(password);
     } else {
-      const index = fakePasswords.findIndex((p) => p.id === password.id);
-      fakePasswords[index] = password;
+      updatePasswordMutation.mutate(password);
     }
   };
 
   const handleOnFormDelete = (password: PasswordDto) => {
     setIsFormVisible(false);
     setSelectedPassword(null);
-    const index = fakePasswords.findIndex((p) => p.id === password.id);
-    fakePasswords.splice(index, 1);
+    deletePasswordMutation.mutate(password.id);
   };
 
   const handleOnFormClose = () => {
@@ -83,13 +111,15 @@ const Dashboard: FC = () => {
     return (
       <>
         <CreateButton handleOnCreate={handleOnCreatePressed} />
-        {fakePasswords.map((passwordDto) => (
-          <PasswordModel
-            password={passwordDto}
-            handleOnEdit={handleOnEditPressed}
-            key={passwordDto.id}
-          />
-        ))}
+        {data &&
+          !isLoading &&
+          data.map((passwordDto) => (
+            <PasswordModel
+              password={passwordDto}
+              handleOnEdit={handleOnEditPressed}
+              key={passwordDto.id}
+            />
+          ))}
       </>
     );
   };
@@ -102,5 +132,3 @@ const Dashboard: FC = () => {
     </div>
   );
 };
-
-export default Dashboard;
