@@ -18,6 +18,7 @@ export class CredentialService {
   async create(auth: any, itemDto: CredentialDto): Promise<Credential> {
     itemDto.lastUpdate = new Date(Date.now());
     const user = await this.userService.findOne(auth.email);
+    delete itemDto._id;
     const item = new this.model(itemDto);
     const credential = await item.save();
     await this.userService.pushCredential(user.email, credential);
