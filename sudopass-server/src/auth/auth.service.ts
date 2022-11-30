@@ -12,12 +12,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async existsUser(email: string): Promise<any> {
+  async existsUser(email: string): Promise<boolean> {
     const user = await this.userService.findOne(email);
-    if (user) {
-      return { email: user.email };
-    }
-    return { msg: 'User misspelling or not exist' };
+    return user ? true : false;
   }
 
   async validateUser(email: string, password: string): Promise<any> {
